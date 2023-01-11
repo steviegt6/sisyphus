@@ -1,9 +1,9 @@
 ﻿// This is used for personal testing and should not run during any automated
 // test runs or the like.
 
+#if true
 using Sisyphus.Build.Util;
 
-#if true
 namespace Sisyphus.Build.Tests.Paths;
 
 [TestFixture]

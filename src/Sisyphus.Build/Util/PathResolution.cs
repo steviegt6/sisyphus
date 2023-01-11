@@ -5,7 +5,7 @@ using Microsoft.Build.Utilities;
 namespace Sisyphus.Build.Util;
 
 /// <summary>
-///     Utilities for resolving paths relating to ULTRAKILL and sispyhus.
+///     Utilities for resolving paths relating to ULTRAKILL and sisyphus.
 /// </summary>
 public static class PathResolution {
     public const string SISYPHUS_UK_GAME_PATH = "SISYPHUS_UK_GAME_PATH";

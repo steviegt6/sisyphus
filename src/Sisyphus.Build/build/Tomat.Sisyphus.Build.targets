@@ -1,20 +1,35 @@
 <Project>
-    
-    <PropertyGroup>
-        <!-- Define this property as we don't want to do anything if someone
-             decides to use Sisyphus.Build actual utilities (i.e. for unit
-             testing or some other scenario in which we'd want to instead just
-             access provided members). -->
-        <SisyphusBuild Condition="'$(SisyphusBuild)' == ''">
-            enable
-        </SisyphusBuild>
-    </PropertyGroup>
-    
+
+    <UsingTask TaskName="PathResolutionTask" AssemblyFile="Sisyphus.Build.dll"/>
+    <UsingTask TaskName="AssemblyResolutionTask"
+               AssemblyFile="Sisyphus.Build.dll"/>
+
     <!-- Set general build properties understood to be good defaults for any
          mods using sisyphus. -->
-    <PropertyGroup Condition="'$(SisyphusBuild)' == 'enable'">
+    <PropertyGroup>
         <DebugSymbols>true</DebugSymbols>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     </PropertyGroup>
-    
+
+    <!-- Resolve game paths and import assemblies as necessary. -->
+    <PropertyGroup>
+        <!--<PathResolutionTask>
+            <Output TaskParameter="GamePath" ItemName="_UKGamePath"/>
+            <Output TaskParameter="AssemblyPath" ItemName="_UKAssemblyPath"/>
+        </PathResolutionTask>
+
+        <UKGamePath>@(_UKGamePath)</UKGamePath>
+        <UKAssemblyPath>@(_UKAssemblyPath)</UKAssemblyPath>-->
+    </PropertyGroup>
+
+    <Target Name="AddAssemblies" BeforeTargets="ResolveAssemblyReferences">
+        <AssemblyResolutionTask>
+            <Output TaskParameter="Assemblies" ItemName="_Assemblies"/>
+        </AssemblyResolutionTask>
+        <ItemGroup>
+            <!-- TODO: Don't copy these? pl0x -->
+            <Reference Include="@(_Assemblies)"/>
+        </ItemGroup>
+    </Target>
+
 </Project>

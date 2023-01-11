@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Build", "Sisyphus.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Build.Tests", "Sisyphus.Build.Tests\Sisyphus.Build.Tests.csproj", "{111921D9-2CE9-4E65-9F24-2ACA2868A026}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.ExampleMod", "Sisyphus.ExampleMod\Sisyphus.ExampleMod.csproj", "{C8623803-0BD2-4F11-960F-0A8090CB82A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8623803-0BD2-4F11-960F-0A8090CB82A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8623803-0BD2-4F11-960F-0A8090CB82A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8623803-0BD2-4F11-960F-0A8090CB82A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8623803-0BD2-4F11-960F-0A8090CB82A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
