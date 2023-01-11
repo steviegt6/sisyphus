@@ -24,12 +24,6 @@ internal static class Logger {
         }
 
         void IBuildEngine.LogErrorEvent(BuildErrorEventArgs e) {
-            /*
-             *             var time = e.Timestamp;
-            var name = e.File;
-            var cat = e.Subcategory;
-            var msg = e.Message ?? "<no message>";
-             */
             Console.WriteLine(
                 DirtyFormat(
                     e.Timestamp,
