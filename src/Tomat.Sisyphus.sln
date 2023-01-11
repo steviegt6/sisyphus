@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Build", "Sisyphus.Build\Sisyphus.Build.csproj", "{F7D1C7DF-496D-44ED-8C55-876BAC51A5FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Build.Tests", "Sisyphus.Build.Tests\Sisyphus.Build.Tests.csproj", "{111921D9-2CE9-4E65-9F24-2ACA2868A026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +14,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7D1C7DF-496D-44ED-8C55-876BAC51A5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D1C7DF-496D-44ED-8C55-876BAC51A5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D1C7DF-496D-44ED-8C55-876BAC51A5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D1C7DF-496D-44ED-8C55-876BAC51A5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111921D9-2CE9-4E65-9F24-2ACA2868A026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

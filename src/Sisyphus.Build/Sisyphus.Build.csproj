@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Sisyphus.Build</RootNamespace>
+        <UnifiedVersion>1.0.0</UnifiedVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Tomat.Sispyhus.Build</PackageId>
+        <Version>$(UnifiedVersion)</Version>
+        <Title>sisyphus Build Tooling</Title>
+        <Authors>Tomat</Authors>
+        <Description>
+            Useful tooling for quickly building mods with sisyphus.
+        </Description>
+        <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+        <PackageProjectUrl>
+            https://github.com/steviegt6/sisyphus
+        </PackageProjectUrl>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <FileVersion>$(UnifiedVersion)</FileVersion>
+        <AssemblyVersion>$(UnifiedVersion)</AssemblyVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None PackagePath="build/Sisyphus.Build.dll" Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" Visible="false" />
+        <None PackagePath="build/Tomat.Sisyphus.Build.targets" Include="build/Tomat.Sisyphus.Build.targets" Pack="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.4.0" />
+    </ItemGroup>
+
+</Project>
