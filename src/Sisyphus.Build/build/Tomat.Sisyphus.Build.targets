@@ -10,6 +10,8 @@
     <PropertyGroup>
         <DebugSymbols>true</DebugSymbols>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277;MSB3243</MSBuildWarningsAsMessages>
     </PropertyGroup>
 
     <PropertyGroup>
