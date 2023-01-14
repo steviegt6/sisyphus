@@ -1,10 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <Import Project="../../build/Tomat.Sisyphus.GamePath.targets" />
+
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
 
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <BaseDir>bin/$(Configuration)/$(TargetFramework)</BaseDir>
+        <OutDir>$(BaseDir)/sisyphus/core/</OutDir>
+        <DoorstopDir>$(BaseDir)</DoorstopDir>
+    </PropertyGroup>
+
+    <!-- TODO: Cross-OS support. -->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <StartAction>Program</StartAction>
+        <StartProgram>$(GameRunPath)</StartProgram>
+        <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <DoorstopFiles Include="$(MSBuildProjectDirectory)/doorstop/**" />
+    </ItemGroup>
+
+    <Target Name="CopyDoorstopFiles" BeforeTargets="Build;Rebuild">
+        <Copy SourceFiles="@(DoorstopFiles)" DestinationFolder="$(DoorstopDir)" />
+    </Target>
+
+    <Target Name="CopyOutputFiles" AfterTargets="Build;Rebuild">
+        <ItemGroup>
+            <OutputFiles Include="$(MSBuildProjectDirectory)/$(BaseDir)/**" />
+        </ItemGroup>
+
+        <Copy SourceFiles="@(OutputFiles)" DestinationFolder="$(GamePath)/%(RecursiveDir)" />
+    </Target>
 
 </Project>

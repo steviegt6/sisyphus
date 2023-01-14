@@ -1,6 +1,6 @@
 <Project>
 
-    <Import Project="Tomat.Sisyphus.Build.GamePath.targets"/>
+    <Import Project="Tomat.Sisyphus.GamePath.targets"/>
 
     <UsingTask TaskName="AssemblyResolutionTask"
                AssemblyFile="Sisyphus.Build.dll"/>

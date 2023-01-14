@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.ExampleMod", "Sisy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus", "Sisyphus\Sisyphus.csproj", "{19538BE6-BCA5-4FCF-B8EF-C499D13D7F0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Stubs", "Sisyphus.Stubs\Sisyphus.Stubs.csproj", "{53E961D5-8724-4255-8225-7534F647C995}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C3884376-0D63-458A-9378-FC7BAEDE7DAD}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Tomat.Sisyphus.GamePath.targets = ..\build\Tomat.Sisyphus.GamePath.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +43,9 @@ Global
 		{19538BE6-BCA5-4FCF-B8EF-C499D13D7F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19538BE6-BCA5-4FCF-B8EF-C499D13D7F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19538BE6-BCA5-4FCF-B8EF-C499D13D7F0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E961D5-8724-4255-8225-7534F647C995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E961D5-8724-4255-8225-7534F647C995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E961D5-8724-4255-8225-7534F647C995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E961D5-8724-4255-8225-7534F647C995}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
