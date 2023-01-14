@@ -45,8 +45,7 @@
             <Output TaskParameter="Assemblies" ItemName="_Assemblies"/>
         </AssemblyResolutionTask>
         <ItemGroup>
-            <!-- TODO: Don't copy these? pl0x -->
-            <Reference Include="@(_Assemblies)"/>
+            <Reference Include="@(_Assemblies)" Private="false"/>
         </ItemGroup>
     </Target>
 
