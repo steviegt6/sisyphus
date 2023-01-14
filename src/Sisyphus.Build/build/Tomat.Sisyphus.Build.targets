@@ -11,6 +11,10 @@
         <DebugSymbols>true</DebugSymbols>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <OutDir>$(GamePath)/sisyphus/sisyphus-mods/$(AssemblyName)/</OutDir>
+    </PropertyGroup>
     
     <!-- TODO: Cross-OS support. -->
     <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
