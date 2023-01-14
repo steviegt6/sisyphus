@@ -1,3 +1,3 @@
 ﻿extern alias JA;
 
-global using UsedImplicitlyAttribute = JA::JetBrains.Annotations.UsedImplicitlyAttribute;
+global using JA::JetBrains.Annotations;
