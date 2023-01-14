@@ -1,0 +1,42 @@
+﻿<!--
+Taken from:
+https://github.com/Pathoschild/SMAPI/blob/develop/build/find-game-folder.targets
+-->
+<Project>
+
+    <PropertyGroup>
+        <GamePath Condition="!Exists('$(GamePath)') AND '$(SISYPHUS_UK_GAME_PATH)' != ''">$(SISYPHUS_UK_GAME_PATH)</GamePath>
+    </PropertyGroup>
+
+    <Choose>
+        <When Condition="$(OS) == 'Unix' OR $(OS) == 'OSX'">
+            <PropertyGroup>
+                <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/.steam/steam/steamapps/common/ULTRAKILL</GamePath>
+                <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/.local/share/Steam/steamapps/common/ULTRAKILL</GamePath>
+                <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/.var/app/com.valvesoftware.Steam/data/Steam/steamapps/common/ULTRAKILL</GamePath>
+
+                <GamePath Condition="!Exists('$(GamePath)')">/Applications/ULTRAKILL.app/Contents/MacOS</GamePath>
+                <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/Library/Application Support/Steam/steamapps/common/ULTRAKILL/Contents/MacOS</GamePath>
+            </PropertyGroup>
+        </When>
+
+        <When Condition="$(OS) == 'Windows_NT'">
+            <PropertyGroup>
+                <GamePath Condition="!Exists('$(GamePath)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 1229490', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GamePath>
+
+                <!-- derive from Steam library path -->
+                <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
+                <GamePath Condition="!Exists('$(GamePath)') AND '$(_SteamLibraryPath)' != ''">$(_SteamLibraryPath)\steamapps\common\ULTRAKILL</GamePath>
+
+                <GamePath Condition="!Exists('$(GamePath)')">C:\Program Files\Steam\steamapps\common\ULTRAKILL</GamePath>
+                <GamePath Condition="!Exists('$(GamePath)')">C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL</GamePath>
+            </PropertyGroup>
+        </When>
+    </Choose>
+
+    <PropertyGroup>
+        <!-- TODO: Cross-OS support. -->
+        <GameRunPath>$(GamePath)/ULTRAKILL.exe</GameRunPath>
+    </PropertyGroup>
+
+</Project>

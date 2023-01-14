@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
-using Sisyphus.Build.Util;
 
 namespace Sisyphus.Build;
 
@@ -10,19 +9,15 @@ namespace Sisyphus.Build;
 ///     Collects *.dll files from a given path to load.
 /// </summary>
 public sealed class AssemblyResolutionTask : BuildTask {
-    //[Required]
-    public string? InputPath { get; set; } = "";
+    [Required]
+    public string InputPath { get; set; } = "";
 
     [Output]
     public string[] Assemblies { get; set; } = Array.Empty<string>();
 
     public override bool Execute() {
-        // TODO: Temporary workaround.
-        var gamePath = PathResolution.GetGamePath(Log);
-        InputPath = PathResolution.GetAssemblyPath(Log, gamePath);
-
-        if (InputPath is null) {
-            Log.LogError("Input path is null.");
+        if (!Directory.Exists(InputPath)) {
+            Log.LogError("Directory not found: " + InputPath);
             return false;
         }
 
@@ -30,7 +25,7 @@ public sealed class AssemblyResolutionTask : BuildTask {
 
         var assemblies = Directory.EnumerateFiles(InputPath, "*.dll");
 
-        Assemblies = assemblies.Where(x => Filter(x)).ToArray();
+        Assemblies = assemblies.Where(Filter).ToArray();
 
         Log.LogMessage($"Found {Assemblies.Length} assemblies:");
 

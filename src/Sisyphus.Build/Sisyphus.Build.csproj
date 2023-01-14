@@ -36,6 +36,7 @@
     <ItemGroup>
         <None PackagePath="build/Sisyphus.Build.dll" Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" Visible="false" />
         <None PackagePath="build/Tomat.Sisyphus.Build.targets" Include="build\Tomat.Sisyphus.Build.targets" Pack="true" />
+        <None PackagePath="build/Tomat.Sisyphus.Build.GamePath.targets" Include="build\Tomat.Sisyphus.Build.GamePath.targets" Pack="true" />
     </ItemGroup>
 
     <ItemGroup>

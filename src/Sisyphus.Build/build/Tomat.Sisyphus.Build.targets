@@ -1,6 +1,7 @@
 <Project>
 
-    <UsingTask TaskName="PathResolutionTask" AssemblyFile="Sisyphus.Build.dll"/>
+    <Import Project="Tomat.Sisyphus.Build.GamePath.targets"/>
+
     <UsingTask TaskName="AssemblyResolutionTask"
                AssemblyFile="Sisyphus.Build.dll"/>
 
@@ -11,19 +12,36 @@
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     </PropertyGroup>
 
-    <!-- Resolve game paths and import assemblies as necessary. -->
-    <PropertyGroup>
-        <!--<PathResolutionTask>
-            <Output TaskParameter="GamePath" ItemName="_UKGamePath"/>
-            <Output TaskParameter="AssemblyPath" ItemName="_UKAssemblyPath"/>
-        </PathResolutionTask>
+    <!-- Install launchSettings.json -->
+    <!--<Target Name="InstallLaunchSettings" BeforeTargets="Build">
+        <PropertyGroup>
+            <LaunchSettings>
+                {
+                "profiles": {
+                "ULTRAKILL": {
+                "commandName": "Executable",
+                "executablePath": "%24%28GameRunPath%29",
+                "workingDirectory": "%24%28GamePath%29"
+                }
+                }
+            </LaunchSettings>
+        </PropertyGroup>
 
-        <UKGamePath>@(_UKGamePath)</UKGamePath>
-        <UKAssemblyPath>@(_UKAssemblyPath)</UKAssemblyPath>-->
+        <Message Importance="High" Text="GamePath: $(GamePath)"/>
+        <Message Importance="High" Text="LaunchSettings: $(LaunchSettings)"/>
+
+        <WriteLinesToFile File="$(MSBuildProjectDirectory)/Properties/launchSettings.json" Overwrite="true" Lines="$(LaunchSettings)"/>
+    </Target>-->
+    
+    <!-- TODO: Cross-OS support. -->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <StartAction>Program</StartAction>
+        <StartProgram>$(GameRunPath)</StartProgram>
+        <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
     </PropertyGroup>
 
     <Target Name="AddAssemblies" BeforeTargets="ResolveAssemblyReferences">
-        <AssemblyResolutionTask>
+        <AssemblyResolutionTask InputPath="$(GamePath)/ULTRAKILL_Data/Managed">
             <Output TaskParameter="Assemblies" ItemName="_Assemblies"/>
         </AssemblyResolutionTask>
         <ItemGroup>
