@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Build.Framework;
 
 namespace Sisyphus.Build;
@@ -8,12 +9,13 @@ namespace Sisyphus.Build;
 /// <summary>
 ///     Collects *.dll files from a given path to load.
 /// </summary>
+[UsedImplicitly]
 public sealed class AssemblyResolutionTask : BuildTask {
     [Required]
-    public string InputPath { get; set; } = "";
+    public string InputPath { get; [UsedImplicitly] set; } = "";
 
     [Output]
-    public string[] Assemblies { get; set; } = Array.Empty<string>();
+    public string[] Assemblies { [UsedImplicitly] get; set; } = Array.Empty<string>();
 
     public override bool Execute() {
         if (!Directory.Exists(InputPath)) {
