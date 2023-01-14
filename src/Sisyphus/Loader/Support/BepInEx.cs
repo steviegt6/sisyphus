@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using log4net;
 
 namespace Sisyphus.Loader.Support;
@@ -12,6 +13,7 @@ internal static class BepInEx {
     private static readonly ILog logger =
         LogManager.GetLogger("Support.BepInEx");
 
+    private const string sisyphus_dir = "sisyphus";
     private const string bepinex_dir = "BepInEx";
     private const string core_dir = "core";
     private const string bepinex_preloader_dll = "BepInEx.Preloader.dll";
@@ -20,12 +22,14 @@ internal static class BepInEx {
     private const string main_name = "Main";
 
     private static readonly string bepinex_preloader_path =
-        Path.Combine(bepinex_dir, core_dir, bepinex_preloader_dll);
+        Path.Combine(sisyphus_dir, core_dir, bepinex_preloader_dll);
 
     internal static void Initialize(ref LoaderType loaderType) {
         logger.Info("Initializing BepInEx support...");
 
-        var expectedDir = Path.Combine(bepinex_dir, core_dir);
+        MoveBepInExFolder();
+
+        var expectedDir = Path.Combine(sisyphus_dir, core_dir);
 
         if (!Directory.Exists(expectedDir)) {
             logger.Info("Skipping, not found: " + expectedDir);
@@ -33,10 +37,6 @@ internal static class BepInEx {
         }
 
         logger.Info("Found: " + expectedDir);
-
-        var setup = new AppDomainSetup {
-            ApplicationBase = expectedDir,
-        };
 
         Assembly asm;
 
@@ -86,5 +86,24 @@ internal static class BepInEx {
         catch (Exception e) {
             logger.Error("Failed to invoke BepInEx preloader:", e);
         }
+    }
+
+    private static void MoveBepInExFolder() {
+        if (!Directory.Exists(bepinex_dir))
+            return;
+        
+        logger.Info("Found existing BepInEx directory, moving over...");
+
+        var full = Path.GetFullPath(bepinex_dir);
+        var fullSisyphus = Path.GetFullPath(sisyphus_dir);
+        var dir = new DirectoryInfo(full);
+
+        foreach (var file in dir.EnumerateFiles("**", SearchOption.AllDirectories)) {
+            var path = file.FullName.Replace(full, fullSisyphus);
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            file.MoveTo(path);
+        }
+        
+        dir.Delete(true);
     }
 }

@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <BaseDir>bin/$(Configuration)/$(TargetFramework)</BaseDir>
-        <OutDir>$(BaseDir)/sisyphus/core/</OutDir>
+        <OutDir>$(BaseDir)/sisyphus/sisyphus-core/</OutDir>
         <DoorstopDir>$(BaseDir)</DoorstopDir>
     </PropertyGroup>
 

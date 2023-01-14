@@ -23,7 +23,7 @@ enabled="1"
 
 # Path to the assembly to load and execute
 # NOTE: The entrypoint must be of format `static void Doorstop.Entrypoint.Start()`
-target_assembly="Doorstop.dll"
+target_assembly="sisyphus/sisyphus-core/Sisyphus.dll"
 
 # If enabled, DOORSTOP_DISABLE env var value is ignored
 # USE THIS ONLY WHEN ASKED TO OR YOU KNOW WHAT THIS MEANS
