@@ -16,7 +16,7 @@ internal static class BepInEx {
     private const string core_dir = "core";
     private const string bepinex_preloader_dll = "BepInEx.Preloader.dll";
 
-    private const string ep_name = "Entrypoint";
+    private const string ep_name = "BepInEx.Preloader.Entrypoint";
     private const string main_name = "Main";
 
     private static readonly string bepinex_preloader_path =
@@ -37,22 +37,12 @@ internal static class BepInEx {
         var setup = new AppDomainSetup {
             ApplicationBase = expectedDir,
         };
-        AppDomain domain;
-
-        try {
-            logger.Debug("Initializing AppDomain...");
-            domain = AppDomain.CreateDomain("Sisyphus:BepInEx", null, setup);
-        }
-        catch (Exception e) {
-            logger.Error("Failed to initialize AppDomain:", e);
-            return;
-        }
 
         Assembly asm;
 
         try {
             logger.Debug("Loading assembly: " + bepinex_preloader_path);
-            asm = domain.Load(File.ReadAllBytes(bepinex_preloader_path));
+            asm = Assembly.LoadFile(bepinex_preloader_path);
         }
         catch (Exception e) {
             logger.Error("Failed to load BepInEx preloader:", e);
@@ -70,7 +60,7 @@ internal static class BepInEx {
         logger.Debug("Resolving entrypoint method: " + main_name);
         var main = entrypoint.GetMethod(
             main_name,
-            BindingFlags.Static | BindingFlags.NonPublic
+            BindingFlags.Static | BindingFlags.Public
         );
 
         if (main is null) {
