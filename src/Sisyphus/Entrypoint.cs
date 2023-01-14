@@ -34,6 +34,8 @@ internal static class Entrypoint {
             log.Info($"{nameof(LoadManager)}::{nameof(LoadManager.Load)}");
 
             LoadManager.Load(ref loaderType);
+            
+            log.Info("Detected loaders: " + loaderType);
         }
         finally {
             AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
