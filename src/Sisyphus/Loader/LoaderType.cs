@@ -26,9 +26,6 @@ public enum LoaderType {
     ///     <br />
     ///     https://github.com/LavaGang/MelonLoader
     /// </summary>
-    /// <remarks>
-    ///     TODO: sisyphus does not support MelonLoader currently.
-    /// </remarks>
     MelonLoader   = 0b0100,
     
     /// <summary>
