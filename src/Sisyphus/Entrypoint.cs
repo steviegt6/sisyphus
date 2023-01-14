@@ -7,6 +7,7 @@ using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Layout;
+using MonoMod.RuntimeDetour.HookGen;
 using Sisyphus.Loader;
 
 namespace Sisyphus;
@@ -23,6 +24,7 @@ internal static class Entrypoint {
     internal static void Main(LoaderType loaderType) {
         AppDomain.CurrentDomain.AssemblyResolve += Resolve;
         AppDomain.CurrentDomain.UnhandledException += Handle;
+        AppDomain.CurrentDomain.AssemblyLoad += Patch;
 
         try {
             InitializeLogging();
@@ -34,13 +36,43 @@ internal static class Entrypoint {
             log.Info($"{nameof(LoadManager)}::{nameof(LoadManager.Load)}");
 
             LoadManager.Load(ref loaderType);
-            
+
             log.Info("Detected loaders: " + loaderType);
         }
         finally {
             AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
             AppDomain.CurrentDomain.UnhandledException -= Handle;
         }
+    }
+
+    private static void Patch(object sender, AssemblyLoadEventArgs args) {
+        var name = args.LoadedAssembly.GetName().Name;
+
+        switch (name) {
+            case "BepInEx.Preloader":
+                Patch_BepInExPreloader(args.LoadedAssembly);
+                break;
+        }
+    }
+
+    private static void Patch_BepInExPreloader(Assembly asm) {
+        var preloaderRunner = asm.GetType("BepInEx.Preloader.PreloaderRunner");
+        var loadCriticalAssemblies = preloaderRunner.GetMethod(
+            "LoadCriticalAssemblies",
+            BindingFlags.NonPublic | BindingFlags.Static
+        );
+
+        var platformUtils = asm.GetType("BepInEx.Preloader.PlatformUtils");
+        var setPlatform = platformUtils.GetMethod(
+            "SetPlatform",
+            BindingFlags.Public | BindingFlags.Static
+        );
+
+        if (loadCriticalAssemblies is not null)
+            HookEndpointManager.Add(loadCriticalAssemblies, () => { });
+        
+        if (setPlatform is not null)
+            HookEndpointManager.Add(setPlatform, () => { });
     }
 
     private static void Handle(object sender, UnhandledExceptionEventArgs e) {
@@ -55,7 +87,8 @@ internal static class Entrypoint {
         var name = new AssemblyName(args.Name);
 
         try {
-            var path = Path.Combine("sisyphus", "core", name.Name + ".dll");
+            var path =
+                Path.Combine("sisyphus", "sisyphus-core", name.Name + ".dll");
             return Assembly.LoadFile(path);
         }
         catch {
