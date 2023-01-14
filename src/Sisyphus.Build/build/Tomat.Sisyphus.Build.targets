@@ -11,27 +11,6 @@
         <DebugSymbols>true</DebugSymbols>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     </PropertyGroup>
-
-    <!-- Install launchSettings.json -->
-    <!--<Target Name="InstallLaunchSettings" BeforeTargets="Build">
-        <PropertyGroup>
-            <LaunchSettings>
-                {
-                "profiles": {
-                "ULTRAKILL": {
-                "commandName": "Executable",
-                "executablePath": "%24%28GameRunPath%29",
-                "workingDirectory": "%24%28GamePath%29"
-                }
-                }
-            </LaunchSettings>
-        </PropertyGroup>
-
-        <Message Importance="High" Text="GamePath: $(GamePath)"/>
-        <Message Importance="High" Text="LaunchSettings: $(LaunchSettings)"/>
-
-        <WriteLinesToFile File="$(MSBuildProjectDirectory)/Properties/launchSettings.json" Overwrite="true" Lines="$(LaunchSettings)"/>
-    </Target>-->
     
     <!-- TODO: Cross-OS support. -->
     <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
