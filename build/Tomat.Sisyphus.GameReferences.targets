@@ -1,0 +1,14 @@
+﻿<Project>
+
+    <Import Project="Tomat.Sisyphus.GamePath.targets"/>
+
+    <Target Name="AddAssemblies" BeforeTargets="ResolveAssemblyReferences">
+        <ItemGroup>
+            <RefAsms Include="$(GamePath)/ULTRAKILL_Data/Managed/*.dll"
+                     Exclude="$(GamePath)/ULTRAKILL_Data/Managed/System.Core.dll;$(GamePath)/ULTRAKILL_Data/Managed/System.dll"/>
+
+            <Reference Include="@(RefAsms)" Private="false"/>
+        </ItemGroup>
+    </Target>
+
+</Project>

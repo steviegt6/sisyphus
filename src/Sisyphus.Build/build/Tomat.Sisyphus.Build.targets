@@ -1,9 +1,7 @@
 <Project>
 
     <Import Project="Tomat.Sisyphus.GamePath.targets"/>
-
-    <UsingTask TaskName="AssemblyResolutionTask"
-               AssemblyFile="Sisyphus.Build.dll"/>
+    <Import Project="Tomat.Sisyphus.GameReferences.targets"/>
 
     <!-- Set general build properties understood to be good defaults for any
          mods using sisyphus. -->
@@ -24,14 +22,5 @@
         <StartProgram>$(GameRunPath)</StartProgram>
         <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
     </PropertyGroup>
-
-    <Target Name="AddAssemblies" BeforeTargets="ResolveAssemblyReferences">
-        <AssemblyResolutionTask InputPath="$(GamePath)/ULTRAKILL_Data/Managed">
-            <Output TaskParameter="Assemblies" ItemName="_Assemblies"/>
-        </AssemblyResolutionTask>
-        <ItemGroup>
-            <Reference Include="@(_Assemblies)" Private="false"/>
-        </ItemGroup>
-    </Target>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Sisyphus.Loader;
+﻿using Sisyphus.Loader;
 
 // ReSharper disable once CheckNamespace
 namespace Doorstop;

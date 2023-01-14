@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="../../build/Tomat.Sisyphus.GamePath.targets" />
+    <Import Project="../../build/Tomat.Sisyphus.GameReferences.targets" />
 
     <PropertyGroup>
         <TargetFramework>netframework472</TargetFramework>
 
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277;MSB3243;CS0435</MSBuildWarningsAsMessages>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -27,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+        <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" Aliases="JA" />
         <PackageReference Include="log4net" Version="2.0.14" />
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.1.29.1" />
     </ItemGroup>
