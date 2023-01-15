@@ -2,6 +2,7 @@
 
     <Import Project="../../build/Tomat.Sisyphus.GamePath.targets" />
     <Import Project="../../build/Tomat.Sisyphus.GameReferences.targets" />
+    <Import Project="../../build/Tomat.Sisyphus.GameRunner.targets" />
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
