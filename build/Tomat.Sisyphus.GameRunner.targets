@@ -1,0 +1,10 @@
+﻿<Project>
+
+    <!-- TODO: Cross-OS support. -->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <StartAction>Program</StartAction>
+        <StartProgram>$(GameRunPath)</StartProgram>
+        <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
+    </PropertyGroup>
+
+</Project>

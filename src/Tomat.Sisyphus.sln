@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C3884376
 	ProjectSection(SolutionItems) = preProject
 		..\build\Tomat.Sisyphus.GamePath.targets = ..\build\Tomat.Sisyphus.GamePath.targets
 		..\build\Tomat.Sisyphus.GameReferences.targets = ..\build\Tomat.Sisyphus.GameReferences.targets
+		..\build\Tomat.Sisyphus.GameRunner.targets = ..\build\Tomat.Sisyphus.GameRunner.targets
 	EndProjectSection
 EndProject
 Global

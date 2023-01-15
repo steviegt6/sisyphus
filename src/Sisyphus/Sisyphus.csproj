@@ -4,7 +4,7 @@
     <Import Project="../../build/Tomat.Sisyphus.GameReferences.targets" />
 
     <PropertyGroup>
-        <TargetFramework>netframework472</TargetFramework>
+        <TargetFramework>net472</TargetFramework>
 
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
@@ -16,13 +16,6 @@
         <BaseDir>bin/$(Configuration)/$(TargetFramework)</BaseDir>
         <OutDir>$(BaseDir)/sisyphus/sisyphus-core/</OutDir>
         <DoorstopDir>$(BaseDir)</DoorstopDir>
-    </PropertyGroup>
-
-    <!-- TODO: Cross-OS support. -->
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-        <StartAction>Program</StartAction>
-        <StartProgram>$(GameRunPath)</StartProgram>
-        <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
     </PropertyGroup>
 
     <ItemGroup>

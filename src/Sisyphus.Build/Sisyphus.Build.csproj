@@ -38,6 +38,7 @@
         <None PackagePath="build/Tomat.Sisyphus.Build.targets" Include="build\Tomat.Sisyphus.Build.targets" Pack="true" />
         <None PackagePath="build/Tomat.Sisyphus.GamePath.targets" Include="..\..\build\Tomat.Sisyphus.GamePath.targets" Pack="true" />
         <None PackagePath="build/Tomat.Sisyphus.GameReferences.targets" Include="..\..\build\Tomat.Sisyphus.GameReferences.targets" Pack="true" />
+        <None PackagePath="build/Tomat.Sisyphus.GameRunner.targets" Include="..\..\build\Tomat.Sisyphus.GameRunner.targets" Pack="true" />
     </ItemGroup>
 
     <ItemGroup>

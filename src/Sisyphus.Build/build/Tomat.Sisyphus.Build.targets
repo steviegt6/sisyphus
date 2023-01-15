@@ -2,6 +2,7 @@
 
     <Import Project="Tomat.Sisyphus.GamePath.targets"/>
     <Import Project="Tomat.Sisyphus.GameReferences.targets"/>
+    <Import Project="Tomat.Sisyphus.GameRunner.targets"/>
 
     <!-- Set general build properties understood to be good defaults for any
          mods using sisyphus. -->
@@ -14,13 +15,6 @@
 
     <PropertyGroup>
         <OutDir>$(GamePath)/sisyphus/sisyphus-mods/$(AssemblyName)/</OutDir>
-    </PropertyGroup>
-    
-    <!-- TODO: Cross-OS support. -->
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-        <StartAction>Program</StartAction>
-        <StartProgram>$(GameRunPath)</StartProgram>
-        <StartWorkingDirectory>$(GamePath)</StartWorkingDirectory>
     </PropertyGroup>
 
 </Project>
