@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sisyphus.Loader;
+namespace Sisyphus.Loader.Core;
 
 /// <summary>
 ///     Describes known mod loaders the user is using.

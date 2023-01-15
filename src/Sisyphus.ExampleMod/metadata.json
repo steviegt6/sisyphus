@@ -1,0 +1,25 @@
+{
+  // The mod's display name.
+  "name": "Sisyphus Example Mod",
+  
+  // The mod's SemVer-compliant version, supports -prereleases and +metadata.
+  "version": "1.0.0",
+  
+  // Anyone you would like to credit (programmers, modelers, artists, etc.).
+  "authors": "Tomat",
+  
+  // A (preferably) short and sweet description of your mod - should give a
+  // brief rundown.
+  // Currently not displayed anywhere, but it's best to add one in case support
+  // is eventually added.
+  "description": "A simple mod showing the basic capabilities of sisyphus.",
+  
+  // Any dependencies this mod has on other mods. Supports SemVer ranges in
+  // accordance to the npm spec (followed [mostly] by go, rust, etc).
+  // See: https://docs.npmjs.com/about-semantic-versioning
+  //      https://semver.npmjs.com/
+  "dependencies": {
+    // "internalModName": "versionRange"
+    // ex.: "sisyphus": ">=1.0.0"
+  }
+}

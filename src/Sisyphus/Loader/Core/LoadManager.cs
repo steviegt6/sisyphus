@@ -1,7 +1,7 @@
 ﻿using log4net;
-using Sisyphus.Loader.Support;
+using Sisyphus.Loader.Core.Support;
 
-namespace Sisyphus.Loader; 
+namespace Sisyphus.Loader.Core;
 
 /// <summary>
 ///     Handles loading mods for sisyphus and initializes other mod loaders.

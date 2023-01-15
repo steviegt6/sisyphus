@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using log4net;
 
-namespace Sisyphus.Loader.Support;
+namespace Sisyphus.Loader.Core.Support;
 
 /// <summary>
 ///     BepInEx support for sisyphus.

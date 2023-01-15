@@ -1,4 +1,5 @@
 ﻿using Sisyphus.Loader;
+using Sisyphus.Loader.Core;
 
 // ReSharper disable once CheckNamespace
 namespace Doorstop;

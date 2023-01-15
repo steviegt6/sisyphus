@@ -31,7 +31,7 @@
         <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" Aliases="JA" />
         <PackageReference Include="log4net" Version="2.0.14" />
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.1.29.1" />
-        <PackageReference Include="Semver" Version="2.2.0" />
+        <PackageReference Include="Semver" Version="2.3.0-beta.0" />
     </ItemGroup>
 
     <Target Name="CopyDoorstopFiles" BeforeTargets="Build;Rebuild">

@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C3884376
 		..\build\Tomat.Sisyphus.GameRunner.targets = ..\build\Tomat.Sisyphus.GameRunner.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.API", "Sisyphus.API\Sisyphus.API.csproj", "{C89BC3BC-1E19-4476-A2E2-DEC37AC6EE3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Tests", "Sisyphus.Tests\Sisyphus.Tests.csproj", "{D5564850-A98D-42B9-9733-BCE4831AD913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,5 +53,13 @@ Global
 		{53E961D5-8724-4255-8225-7534F647C995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53E961D5-8724-4255-8225-7534F647C995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53E961D5-8724-4255-8225-7534F647C995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89BC3BC-1E19-4476-A2E2-DEC37AC6EE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89BC3BC-1E19-4476-A2E2-DEC37AC6EE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89BC3BC-1E19-4476-A2E2-DEC37AC6EE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89BC3BC-1E19-4476-A2E2-DEC37AC6EE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5564850-A98D-42B9-9733-BCE4831AD913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5564850-A98D-42B9-9733-BCE4831AD913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5564850-A98D-42B9-9733-BCE4831AD913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5564850-A98D-42B9-9733-BCE4831AD913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

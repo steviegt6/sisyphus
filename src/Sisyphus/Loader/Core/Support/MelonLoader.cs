@@ -1,4 +1,4 @@
-﻿namespace Sisyphus.Loader.Support;
+﻿namespace Sisyphus.Loader.Core.Support;
 
 /// <summary>
 ///     MelonLoader support
