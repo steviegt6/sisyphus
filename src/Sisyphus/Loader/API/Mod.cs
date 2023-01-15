@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sisyphus.Loader.Core;
 
 namespace Sisyphus.Loader.API; 
 
@@ -15,7 +16,16 @@ public interface IMod {
     ///     Called once this mod is initialized and <see cref="Metadata"/> has
     ///     been set.
     /// </summary>
-    void OnInitialize();
+    /// <param name="loader">
+    ///     The <see cref="IModLoader"/> that loaded this <see cref="IMod"/>.
+    /// </param>
+    void OnInitialize(IModLoader loader);
+
+    /// <summary>
+    ///     Called once sisyphus has finished loading its mods and supported
+    ///     loaders have been initialized.
+    /// </summary>
+    void OnLoadFinish();
 
     /// <summary>
     ///     Retrieves a list of prepatchers that this mod provides and employs.
@@ -33,7 +43,10 @@ public abstract class Mod : IMod {
     // still be considered nullable to avoid any edge cases.
     public IModMetadata? Metadata { get; set; } = null;
 
-    public virtual void OnInitialize() {
+    public virtual void OnInitialize(IModLoader loader) {
+    }
+
+    public virtual void OnLoadFinish() {
     }
 
     public virtual IEnumerable<IPrepatcher> GetPrepatchers() {

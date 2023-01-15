@@ -15,26 +15,33 @@ namespace Sisyphus.Loader.Core;
 ///     Handles collecting, sorting, and loading mods. Includes versioning and
 ///     basic dependency management.
 /// </summary>
-internal interface IModLoader {
+public interface IModLoader {
+    /// <summary>
+    ///     Exposes an event to mods that lets them receive notifications when
+    ///     an assembly gets loaded, useful for applying MonoMod patches, etc.
+    ///     while avoiding prepatching in unnecessary cases.
+    /// </summary>
+    event EventHandler<Assembly> AssemblyLoaded;
+    
     /// <summary>
     ///     Returns a list of resolved mods.
     /// </summary>
     /// <returns>A list of all mods this loader resolved.</returns>
     [Pure]
-    List<ResolvedMod> ResolveMods();
+    internal List<ResolvedMod> ResolveMods();
 
     /// <summary>
     ///     Sorts and validates the given list of mods.
     /// </summary>
     /// <param name="mods">The mods to sort and validate.</param>
     /// <returns>A sorted and validated collection of mods.</returns>
-    List<ResolvedMod> SortAndValidateMods(List<ResolvedMod> mods);
+    internal List<ResolvedMod> SortAndValidateMods(List<ResolvedMod> mods);
 
     /// <summary>
     ///     Loads the given mods.
     /// </summary>
     /// <param name="mods">The mods to load.</param>
-    void LoadMods(List<ResolvedMod> mods);
+    internal List<IMod> LoadMods(List<ResolvedMod> mods);
 }
 
 /// <summary>
@@ -56,6 +63,8 @@ internal sealed class ModLoader : IModLoader {
     public ModLoader(string modDir) {
         this.modDir = modDir;
     }
+
+    public event EventHandler<Assembly>? AssemblyLoaded;
 
     public List<ResolvedMod> ResolveMods() {
         log.Debug("Resolving mods...");
@@ -167,7 +176,9 @@ internal sealed class ModLoader : IModLoader {
         return sortedMods;
     }
 
-    public void LoadMods(List<ResolvedMod> mods) {
+    public List<IMod> LoadMods(List<ResolvedMod> mods) {
+        var loadedMods = new List<IMod>();
+
         foreach (var mod in mods) {
             log.Debug("Loading mod: " + mod.Name);
 
@@ -188,17 +199,19 @@ internal sealed class ModLoader : IModLoader {
                     null
                 );
                 if (ctor is null)
-                    return;
+                    continue;
 
                 if (type.GetInterface(nameof(IMod)) is null)
-                    return;
+                    continue;
 
                 // Use the ctor instead of Activator.CreateInstance since we
                 // already go through the trouble of getting the ctor for
                 // precondition checks above.
                 instance = (IMod) ctor.Invoke(null);
                 instance.Metadata = mod.Metadata;
-                instance.OnInitialize();
+                instance.OnInitialize(this);
+
+                loadedMods.Add(instance);
 
                 // We have found we we came for.
                 break;
@@ -209,5 +222,7 @@ internal sealed class ModLoader : IModLoader {
                 log.Warn($"No class implementing {nameof(IMod)} found!");
             }
         }
+
+        return loadedMods;
     }
 }

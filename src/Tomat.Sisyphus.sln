@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.API", "Sisyphus.AP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sisyphus.Tests", "Sisyphus.Tests\Sisyphus.Tests.csproj", "{D5564850-A98D-42B9-9733-BCE4831AD913}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Semver", "semver\Semver\Semver.csproj", "{36DA7AF5-91E8-4639-90F1-4BFFB52E6992}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,5 +63,9 @@ Global
 		{D5564850-A98D-42B9-9733-BCE4831AD913}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5564850-A98D-42B9-9733-BCE4831AD913}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5564850-A98D-42B9-9733-BCE4831AD913}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36DA7AF5-91E8-4639-90F1-4BFFB52E6992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DA7AF5-91E8-4639-90F1-4BFFB52E6992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DA7AF5-91E8-4639-90F1-4BFFB52E6992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DA7AF5-91E8-4639-90F1-4BFFB52E6992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

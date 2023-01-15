@@ -1,0 +1,3 @@
+[submodule "src/semver"]
+	path = src/semver
+	url = https://github.com/maxhauser/semver.git

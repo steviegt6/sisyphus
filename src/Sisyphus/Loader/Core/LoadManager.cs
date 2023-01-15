@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using log4net;
+using Sisyphus.Loader.API;
 using Sisyphus.Loader.Core.Support;
 
 namespace Sisyphus.Loader.Core;
@@ -27,7 +29,7 @@ internal static class LoadManager {
     ///     Initializes sisyphus' mod loader, providing assembly pre-patching,
     ///     and other mod loader initialization shenanigans.
     /// </summary>
-    private static void Initialize(IModLoader loader) {
+    private static List<IMod> Initialize(IModLoader loader) {
         log.Info("Initializing sisyphus...");
 
         var mods = loader.ResolveMods();
@@ -38,15 +40,15 @@ internal static class LoadManager {
         catch (Exception e) {
             log.Error("Caught error while sorting and validating mods:", e);
             log.Warn("Failed to initialize sisyphus, aborting mod loading.");
-            return;
+            return new List<IMod>();
         }
 
         log.Debug("Loading mods in the following order:");
         foreach (var mod in mods)
             log.Debug($"    {mod.Name} ({mod.Metadata.Version})");
 
-        loader.LoadMods(mods);
-
+        var loadedMods = loader.LoadMods(mods);
         log.Info("Initialized sisyphus!");
+        return loadedMods;
     }
 }

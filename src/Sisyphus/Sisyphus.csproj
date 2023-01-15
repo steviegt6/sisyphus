@@ -6,9 +6,11 @@
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
-
+        <UnifiedVersion>1.0.0</UnifiedVersion>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
         <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277;MSB3243;CS0435</MSBuildWarningsAsMessages>
     </PropertyGroup>
@@ -17,6 +19,25 @@
         <BaseDir>bin/$(Configuration)/$(TargetFramework)</BaseDir>
         <OutDir>$(BaseDir)/sisyphus/sisyphus-core/</OutDir>
         <DoorstopDir>$(BaseDir)</DoorstopDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Tomat.Sisyphus</PackageId>
+        <Version>$(UnifiedVersion)</Version>
+        <Title>sisyphus Mod Loader API</Title>
+        <Authors>Tomat</Authors>
+        <Description>
+            Mod loader API, the bare necessities for working with sisyphus.
+        </Description>
+        <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+        <PackageProjectUrl>
+            https://github.com/steviegt6/sisyphus
+        </PackageProjectUrl>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <FileVersion>$(UnifiedVersion)</FileVersion>
+        <AssemblyVersion>$(UnifiedVersion)</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,7 +53,10 @@
         <PackageReference Include="log4net" Version="2.0.14" />
         <PackageReference Include="MedallionTopologicalSort" Version="1.0.0" />
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.1.29.1" />
-        <PackageReference Include="Semver" Version="2.3.0-beta.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\semver\Semver\Semver.csproj" />
     </ItemGroup>
 
     <Target Name="CopyDoorstopFiles" BeforeTargets="Build;Rebuild">
