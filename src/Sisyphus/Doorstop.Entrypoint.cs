@@ -8,12 +8,12 @@ namespace Doorstop;
 ///     UnityDoorstop entry-point.
 /// </summary>
 [UsedImplicitly]
-public static class Entrypoint {
+internal static class Entrypoint {
     /// <summary>
     ///     Entrypoint method invoked externally by UnityDoorstop.
     /// </summary>
     [UsedImplicitly]
-    public static void Start() {
+    internal static void Start() {
         Sisyphus.Entrypoint.Main(LoaderType.UnityDoorstop);
     }
 }
