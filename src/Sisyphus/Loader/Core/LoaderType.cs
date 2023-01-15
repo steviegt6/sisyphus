@@ -6,7 +6,7 @@ namespace Sisyphus.Loader.Core;
 ///     Describes known mod loaders the user is using.
 /// </summary>
 [Flags]
-internal enum LoaderType {
+public enum LoaderType {
     /// <summary>
     ///     UnityDoorstop is in use. Generally should always be true.
     ///     <br />

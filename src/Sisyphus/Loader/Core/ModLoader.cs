@@ -22,7 +22,13 @@ public interface IModLoader {
     ///     while avoiding prepatching in unnecessary cases.
     /// </summary>
     event EventHandler<Assembly> AssemblyLoaded;
-    
+
+    /// <summary>
+    ///     The environment that the mod loader is running in. That is, what
+    ///     other loaders are present.
+    /// </summary>
+    LoaderType LoaderEnvironment { get; set; }
+
     /// <summary>
     ///     Returns a list of resolved mods.
     /// </summary>
@@ -65,6 +71,8 @@ internal sealed class ModLoader : IModLoader {
     }
 
     public event EventHandler<Assembly>? AssemblyLoaded;
+
+    public LoaderType LoaderEnvironment { get; set; }
 
     public List<ResolvedMod> ResolveMods() {
         log.Debug("Resolving mods...");

@@ -30,10 +30,14 @@ internal static class Entrypoint {
             InitializeLogging();
 
             var log = LogManager.GetLogger("Entrypoint");
-
-            log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
+            
             var modDir = Path.Combine("sisyphus", "sisyphus-mods");
-            LoadManager.Load(ref loaderType, new ModLoader(modDir));
+            IModLoader loader =  new ModLoader(modDir) {
+                LoaderEnvironment = loaderType,
+            };
+            
+            log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
+            LoadManager.Load(ref loaderType, loader);
             log.Info($"Ending with {nameof(loaderType)}: " + loaderType);
         }
         finally {

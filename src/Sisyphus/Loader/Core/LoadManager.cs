@@ -19,10 +19,12 @@ internal static class LoadManager {
     /// <param name="loaderType"></param>
     /// <param name="loader">The sisyphus mod loader engine to use.</param>
     public static void Load(ref LoaderType loaderType, IModLoader loader) {
-        Initialize(loader);
+        var mods = Initialize(loader);
 
         BepInEx.Initialize(ref loaderType);
         MelonLoader.Initialize(ref loaderType);
+
+        Finish(mods, loader, loaderType);
     }
 
     /// <summary>
@@ -50,5 +52,16 @@ internal static class LoadManager {
         var loadedMods = loader.LoadMods(mods);
         log.Info("Initialized sisyphus!");
         return loadedMods;
+    }
+
+    private static void Finish(
+        List<IMod> mods,
+        IModLoader loader,
+        LoaderType loaderType
+    ) {
+        loader.LoaderEnvironment = loaderType;
+        
+        foreach (var mod in mods)
+            mod.OnLoadFinish();
     }
 }
