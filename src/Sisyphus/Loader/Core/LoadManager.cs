@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using System;
+using log4net;
 using Sisyphus.Loader.Core.Support;
 
 namespace Sisyphus.Loader.Core;
@@ -29,7 +30,22 @@ internal static class LoadManager {
     private static void Initialize(IModLoader loader) {
         log.Info("Initializing sisyphus...");
 
-        _ = loader.ResolveMods();
+        var mods = loader.ResolveMods();
+
+        try {
+            mods = loader.SortAndValidateMods(mods);
+        }
+        catch (Exception e) {
+            log.Error("Caught error while sorting and validating mods:", e);
+            log.Warn("Failed to initialize sisyphus, aborting mod loading.");
+            return;
+        }
+
+        log.Debug("Loading mods in the following order:");
+        foreach (var mod in mods)
+            log.Debug($"    {mod.Name} ({mod.Metadata.Version})");
+
+        loader.LoadMods(mods);
 
         log.Info("Initialized sisyphus!");
     }

@@ -8,7 +8,6 @@ using log4net.Appender;
 using log4net.Config;
 using log4net.Layout;
 using MonoMod.RuntimeDetour.HookGen;
-using Sisyphus.Loader;
 using Sisyphus.Loader.Core;
 
 namespace Sisyphus;
