@@ -227,7 +227,8 @@ internal sealed class ModLoader : IModLoader {
                 // precondition checks above.
                 instance = (IMod) ctor.Invoke(null);
                 instance.Metadata = mod.Metadata;
-                instance.OnInitialize(this);
+                instance.Loader = this;
+                instance.OnInitialize();
                 RegisterPrepatchers(instance.GetPrepatchers());
 
                 loadedMods.Add(instance);

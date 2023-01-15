@@ -13,13 +13,15 @@ public interface IMod {
     IModMetadata? Metadata { get; set; }
 
     /// <summary>
+    ///     The <see cref="IModLoader"/> that loaded this <see cref="IMod"/>.
+    /// </summary>
+    IModLoader? Loader { get; set; }
+
+    /// <summary>
     ///     Called once this mod is initialized and <see cref="Metadata"/> has
     ///     been set.
     /// </summary>
-    /// <param name="loader">
-    ///     The <see cref="IModLoader"/> that loaded this <see cref="IMod"/>.
-    /// </param>
-    void OnInitialize(IModLoader loader);
+    void OnInitialize();
 
     /// <summary>
     ///     Called once sisyphus has finished loading its mods and supported
@@ -43,7 +45,11 @@ public abstract class Mod : IMod {
     // still be considered nullable to avoid any edge cases.
     public IModMetadata? Metadata { get; set; } = null;
 
-    public virtual void OnInitialize(IModLoader loader) {
+    // See the above comments about Metadata and nullability. The same logic
+    // applies here.
+    public IModLoader? Loader { get; set; }
+
+    public virtual void OnInitialize() {
     }
 
     public virtual void OnLoadFinish() {

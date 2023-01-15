@@ -26,29 +26,14 @@ internal static class Entrypoint {
         IModLoader loader =  new ModLoader(modDir) {
             LoaderEnvironment = loaderType,
         };
-        
-        Assembly? resolve(object sender, ResolveEventArgs args) {
-            var name = new AssemblyName(args.Name);
 
-            try {
-                var fileName = name.Name + ".dll";
-                var path = Path.Combine("sisyphus", "sisyphus-core", fileName);
-
-                var asm = loader.LoadAssemblyFromPath(path);
-                loader.OnAssemblyLoaded(asm);
-                return asm;
-            }
-            catch {
-                return null;
-            }
-        }
-
-        AppDomain.CurrentDomain.AssemblyResolve += resolve;
+        AppDomain.CurrentDomain.AssemblyResolve += Resolve;
         AppDomain.CurrentDomain.UnhandledException += Handle;
         AppDomain.CurrentDomain.AssemblyLoad += Patch;
 
         try {
             InitializeLogging();
+            PatchAssemblyLoading();
 
             var log = LogManager.GetLogger("Entrypoint");
 
@@ -57,7 +42,7 @@ internal static class Entrypoint {
             log.Info($"Ending with {nameof(loaderType)}: " + loaderType);
         }
         finally {
-            AppDomain.CurrentDomain.AssemblyResolve -= resolve;
+            AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
             AppDomain.CurrentDomain.UnhandledException -= Handle;
         }
     }
@@ -100,6 +85,22 @@ internal static class Entrypoint {
         log.Fatal("Unhandled exception:", ex);
     }
 
+    private static Assembly? Resolve(object sender, ResolveEventArgs args) {
+        var name = new AssemblyName(args.Name);
+        
+        LogManager.GetLogger("AssemblyResolver")
+            .Info($"Resolving assembly: {name.Name}");
+
+        try {
+            var fileName = name.Name + ".dll";
+            var path = Path.Combine("sisyphus", "sisyphus-core", fileName);
+            return Assembly.LoadFile(path);
+        }
+        catch {
+            return null;
+        }
+    }
+
     private static void InitializeLogging() {
         var layout = new PatternLayout {
             ConversionPattern = log_pattern
@@ -130,5 +131,9 @@ internal static class Entrypoint {
         BasicConfigurator.Configure(appenders.ToArray());
 
         LogManager.GetLogger("InitializeLogging").Info("Initialized logging!");
+    }
+
+    private static void PatchAssemblyLoading() {
+        // AppDomain.CurrentDomain.Load()
     }
 }
