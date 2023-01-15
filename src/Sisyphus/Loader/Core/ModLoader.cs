@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using log4net;
 using Medallion.Collections;
+using Mono.Cecil;
 using Newtonsoft.Json;
 using Sisyphus.Exceptions;
 using Sisyphus.Loader.API;
@@ -21,7 +22,7 @@ public interface IModLoader {
     ///     an assembly gets loaded, useful for applying MonoMod patches, etc.
     ///     while avoiding prepatching in unnecessary cases.
     /// </summary>
-    event EventHandler<Assembly> AssemblyLoaded;
+    event EventHandler<Assembly?>? AssemblyLoaded;
 
     /// <summary>
     ///     The environment that the mod loader is running in. That is, what
@@ -48,6 +49,12 @@ public interface IModLoader {
     /// </summary>
     /// <param name="mods">The mods to load.</param>
     internal List<IMod> LoadMods(List<ResolvedMod> mods);
+
+    internal void RegisterPrepatchers(IEnumerable<IPrepatcher> prepatchers);
+
+    internal Assembly LoadAssemblyFromPath(string path);
+
+    internal void OnAssemblyLoaded(Assembly? asm);
 }
 
 /// <summary>
@@ -65,12 +72,13 @@ internal readonly record struct ResolvedMod(
 internal sealed class ModLoader : IModLoader {
     private readonly ILog log = LogManager.GetLogger("ModLoader");
     private readonly string modDir;
+    private readonly List<IPrepatcher> patchers = new();
 
     public ModLoader(string modDir) {
         this.modDir = modDir;
     }
 
-    public event EventHandler<Assembly>? AssemblyLoaded;
+    public event EventHandler<Assembly?>? AssemblyLoaded;
 
     public LoaderType LoaderEnvironment { get; set; }
 
@@ -201,7 +209,9 @@ internal sealed class ModLoader : IModLoader {
                     continue;
 
                 var ctor = type.GetConstructor(
-                    BindingFlags.Public | BindingFlags.NonPublic,
+                    BindingFlags.Public
+                  | BindingFlags.NonPublic
+                  | BindingFlags.Instance,
                     null,
                     Type.EmptyTypes,
                     null
@@ -218,6 +228,7 @@ internal sealed class ModLoader : IModLoader {
                 instance = (IMod) ctor.Invoke(null);
                 instance.Metadata = mod.Metadata;
                 instance.OnInitialize(this);
+                RegisterPrepatchers(instance.GetPrepatchers());
 
                 loadedMods.Add(instance);
 
@@ -232,5 +243,42 @@ internal sealed class ModLoader : IModLoader {
         }
 
         return loadedMods;
+    }
+
+    public void RegisterPrepatchers(IEnumerable<IPrepatcher> prepatchers) {
+        patchers.AddRange(prepatchers);
+    }
+
+    public Assembly LoadAssemblyFromPath(string path) {
+        var module = ModuleDefinition.ReadModule(path);
+
+        bool modified = false;
+
+        foreach (var patcher in patchers) {
+            log.Debug($"Patching {module.Name} with {patcher.Name}...");
+
+            var patched = patcher.Modify(module);
+            modified |= patched;
+
+            if (patched)
+                log.Debug($"Patched {module.Name} with {patcher.Name}!");
+            else
+                log.Debug($"{patcher.Name} made no alleged changes!");
+        }
+
+        if (!modified) {
+            log.Debug($"No reported changes made to ${module.Name}, skipping!");
+            return Assembly.LoadFrom(path);
+        }
+
+        using var ms = new MemoryStream();
+        module.Write(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+
+        return Assembly.Load(ms.ToArray());
+    }
+
+    public void OnAssemblyLoaded(Assembly? asm) {
+        AssemblyLoaded?.Invoke(this, asm);
     }
 }

@@ -22,7 +22,28 @@ internal static class Entrypoint {
         "[%d{HH:mm:ss.fff}] [%t/%level] [%logger]: %m%n";
 
     internal static void Main(LoaderType loaderType) {
-        AppDomain.CurrentDomain.AssemblyResolve += Resolve;
+        var modDir = Path.Combine("sisyphus", "sisyphus-mods");
+        IModLoader loader =  new ModLoader(modDir) {
+            LoaderEnvironment = loaderType,
+        };
+        
+        Assembly? resolve(object sender, ResolveEventArgs args) {
+            var name = new AssemblyName(args.Name);
+
+            try {
+                var fileName = name.Name + ".dll";
+                var path = Path.Combine("sisyphus", "sisyphus-core", fileName);
+
+                var asm = loader.LoadAssemblyFromPath(path);
+                loader.OnAssemblyLoaded(asm);
+                return asm;
+            }
+            catch {
+                return null;
+            }
+        }
+
+        AppDomain.CurrentDomain.AssemblyResolve += resolve;
         AppDomain.CurrentDomain.UnhandledException += Handle;
         AppDomain.CurrentDomain.AssemblyLoad += Patch;
 
@@ -30,18 +51,13 @@ internal static class Entrypoint {
             InitializeLogging();
 
             var log = LogManager.GetLogger("Entrypoint");
-            
-            var modDir = Path.Combine("sisyphus", "sisyphus-mods");
-            IModLoader loader =  new ModLoader(modDir) {
-                LoaderEnvironment = loaderType,
-            };
-            
+
             log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
             LoadManager.Load(ref loaderType, loader);
             log.Info($"Ending with {nameof(loaderType)}: " + loaderType);
         }
         finally {
-            AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
+            AppDomain.CurrentDomain.AssemblyResolve -= resolve;
             AppDomain.CurrentDomain.UnhandledException -= Handle;
         }
     }
@@ -82,19 +98,6 @@ internal static class Entrypoint {
 
         var log = LogManager.GetLogger("UnhandledExceptionHandler");
         log.Fatal("Unhandled exception:", ex);
-    }
-
-    private static Assembly? Resolve(object sender, ResolveEventArgs args) {
-        var name = new AssemblyName(args.Name);
-
-        try {
-            var path =
-                Path.Combine("sisyphus", "sisyphus-core", name.Name + ".dll");
-            return Assembly.LoadFile(path);
-        }
-        catch {
-            return null;
-        }
     }
 
     private static void InitializeLogging() {
