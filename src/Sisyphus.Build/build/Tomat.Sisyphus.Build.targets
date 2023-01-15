@@ -16,9 +16,11 @@
     <PropertyGroup>
         <OutDir>$(GamePath)/sisyphus/sisyphus-mods/$(AssemblyName)/</OutDir>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <None Include="metadata.json" Pack="true" PackagePath="metadata.json"/>
+        <None Update="metadata.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

@@ -52,22 +52,22 @@ public class JsonModMetadata : IModMetadata {
     }*/
 
     [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; } = null!;
+    public string Name { get; set; } = null!;
 
     [JsonProperty("version", Required = Required.Always)]
-    private string version { get; } = null!;
+    private string version { get; set; } = null!;
 
     [JsonIgnore]
     public SemVersion Version => SemVersion.Parse(version, SEMVER_STYLES);
 
     [JsonProperty("authors", Required = Required.Always)]
-    public string Authors { get; } = null!;
+    public string Authors { get; set; } = null!;
 
     [JsonProperty("description")]
-    public string Description { get; } = null!;
+    public string Description { get; set; } = null!;
 
     [JsonProperty("dependencies", Required = Required.Always)]
-    private Dictionary<string, string> dependencies { get; } = null!;
+    private Dictionary<string, string> dependencies { get; set; } = null!;
 
     [JsonIgnore]
     public Dictionary<string, SemVersionRange> Dependencies {

@@ -33,12 +33,9 @@ internal static class Entrypoint {
             var log = LogManager.GetLogger("Entrypoint");
 
             log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
-
-            log.Info($"{nameof(LoadManager)}::{nameof(LoadManager.Load)}");
-
-            LoadManager.Load(ref loaderType);
-
-            log.Info("Detected loaders: " + loaderType);
+            var modDir = Path.Combine("sisyphus", "sisyphus-mods");
+            LoadManager.Load(ref loaderType, new ModLoader(modDir));
+            log.Info($"Ending with {nameof(loaderType)}: " + loaderType);
         }
         finally {
             AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
@@ -71,7 +68,7 @@ internal static class Entrypoint {
 
         if (loadCriticalAssemblies is not null)
             HookEndpointManager.Add(loadCriticalAssemblies, () => { });
-        
+
         if (setPlatform is not null)
             HookEndpointManager.Add(setPlatform, () => { });
     }
