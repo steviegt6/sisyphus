@@ -16,6 +16,10 @@
     <PropertyGroup>
         <OutDir>$(GamePath)/sisyphus/sisyphus-mods/$(AssemblyName)/</OutDir>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Tomat.Sisyphus" Version="1.0.0" PrivateAssets="all" />
+    </ItemGroup>
 
     <ItemGroup>
         <None Update="metadata.json">
