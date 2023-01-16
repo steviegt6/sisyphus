@@ -22,6 +22,6 @@ internal static class Entrypoint {
     }
 
     internal static void Doorstop(LoaderType doorstopVers) {
-            Sisyphus.Entrypoint.Main(LoaderType.UnityDoorstop | doorstopVers);
+        Sisyphus.Entrypoint.Main(LoaderType.UnityDoorstop | doorstopVers);
     }
 }
