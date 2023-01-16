@@ -19,8 +19,7 @@ namespace Sisyphus;
 /// 
 internal static class Entrypoint {
     internal static void Main(LoaderType loaderType) {
-        var modDir = Path.Combine("sisyphus", "sisyphus-mods");
-        IModLoader loader = new ModLoader(modDir) {
+        IModLoader loader = new ModLoader(SISYPHUS_MODS_DIRECTORY) {
             LoaderEnvironment = loaderType,
         };
 
@@ -30,15 +29,21 @@ internal static class Entrypoint {
         try {
             InitializeLogging();
             PatchAssemblyLoading();
-
+            
             var log = LogManager.GetLogger("Entrypoint");
 
             log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
             LoadManager.Load(ref loaderType, loader);
             log.Info($"Ending with {nameof(loaderType)}: " + loaderType);
         }
+        catch (Exception e) {
+            var log = LogManager.GetLogger("Entrypoint");
+            
+            log.Fatal("Fatal error occured during loading, cannot recover:", e);
+        }
         finally {
             AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
+            AppDomain.CurrentDomain.AssemblyLoad -= Patch;
         }
     }
 
@@ -77,7 +82,7 @@ internal static class Entrypoint {
 
         try {
             var fileName = name.Name + ".dll";
-            var path = Path.Combine("sisyphus", "sisyphus-core", fileName);
+            var path = Path.Combine(SISYPHUS_CORE_DIRECTORY, fileName);
             return Assembly.LoadFile(path);
         }
         catch {
@@ -104,7 +109,7 @@ internal static class Entrypoint {
 
         var fileApp = new FileAppender {
             Layout = layout,
-            File = "sisyphus-preload.log",
+            File = SISYPHUS_PRELOAD_LOG_FILE,
             AppendToFile = false,
             Encoding = Encoding.UTF8,
         };

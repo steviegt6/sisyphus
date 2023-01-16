@@ -91,7 +91,7 @@ internal sealed class ModLoader : IModLoader {
         foreach (var dir in new DirectoryInfo(modDir).EnumerateDirectories()) {
             log.Debug("Found directory: " + dir.Name);
 
-            var mdPath = Path.Combine(dir.FullName, "metadata.json");
+            var mdPath = Path.Combine(dir.FullName, METADATA_FILE);
             var asmPath = Path.Combine(dir.FullName, $"{dir.Name}.dll");
 
             if (!File.Exists(mdPath)) {

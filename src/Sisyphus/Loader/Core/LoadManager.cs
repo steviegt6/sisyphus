@@ -24,7 +24,7 @@ internal static class LoadManager {
         BepInEx.Initialize(ref loaderType);
         MelonLoader.Initialize(ref loaderType);
 
-        Finish(mods, loader, loaderType);
+        Finalize(mods, loader, loaderType);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ internal static class LoadManager {
         return loadedMods;
     }
 
-    private static void Finish(
+    private static void Finalize(
         List<IMod> mods,
         IModLoader loader,
         LoaderType loaderType

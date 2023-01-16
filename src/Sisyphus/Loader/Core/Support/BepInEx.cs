@@ -12,23 +12,15 @@ internal static class BepInEx {
     private static readonly ILog logger =
         LogManager.GetLogger("Support.BepInEx");
 
-    private const string sisyphus_dir = "sisyphus";
-    private const string bepinex_dir = "BepInEx";
-    private const string core_dir = "core";
-    private const string bepinex_preloader_dll = "BepInEx.Preloader.dll";
-
     private const string ep_name = "BepInEx.Preloader.Entrypoint";
     private const string main_name = "Main";
-
-    private static readonly string bepinex_preloader_path =
-        Path.Combine(sisyphus_dir, core_dir, bepinex_preloader_dll);
 
     internal static void Initialize(ref LoaderType loaderType) {
         logger.Info("Initializing BepInEx support...");
 
         MoveBepInExFolder();
 
-        var expectedDir = Path.Combine(sisyphus_dir, core_dir);
+        var expectedDir = BEPINEX_PRELOADER_PATH;
 
         if (!Directory.Exists(expectedDir)) {
             logger.Info("Skipping, not found: " + expectedDir);
@@ -40,8 +32,8 @@ internal static class BepInEx {
         Assembly asm;
 
         try {
-            logger.Debug("Loading assembly: " + bepinex_preloader_path);
-            asm = Assembly.LoadFile(bepinex_preloader_path);
+            logger.Debug("Loading assembly: " + BEPINEX_PRELOADER_PATH);
+            asm = Assembly.LoadFile(BEPINEX_PRELOADER_PATH);
         }
         catch (Exception e) {
             logger.Error("Failed to load BepInEx preloader:", e);
@@ -88,13 +80,13 @@ internal static class BepInEx {
     }
 
     private static void MoveBepInExFolder() {
-        if (!Directory.Exists(bepinex_dir))
+        if (!Directory.Exists(BEPINEX_DIRECTORY))
             return;
         
         logger.Info("Found existing BepInEx directory, moving over...");
 
-        var full = Path.GetFullPath(bepinex_dir);
-        var fullSisyphus = Path.GetFullPath(sisyphus_dir);
+        var full = Path.GetFullPath(BEPINEX_DIRECTORY);
+        var fullSisyphus = Path.GetFullPath(SISYPHUS_DIRECTORY);
         var dir = new DirectoryInfo(full);
 
         foreach (var file in dir.EnumerateFiles("**", SearchOption.AllDirectories)) {
