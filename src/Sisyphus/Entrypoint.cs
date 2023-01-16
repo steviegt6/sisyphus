@@ -20,7 +20,7 @@ namespace Sisyphus;
 internal static class Entrypoint {
     internal static void Main(LoaderType loaderType) {
         var modDir = Path.Combine("sisyphus", "sisyphus-mods");
-        IModLoader loader =  new ModLoader(modDir) {
+        IModLoader loader = new ModLoader(modDir) {
             LoaderEnvironment = loaderType,
         };
 
