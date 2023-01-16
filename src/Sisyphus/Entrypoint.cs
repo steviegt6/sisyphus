@@ -18,9 +18,6 @@ namespace Sisyphus;
 /// <seealso cref="Doorstop.Entrypoint"/>
 /// 
 internal static class Entrypoint {
-    private const string log_pattern =
-        "[%d{HH:mm:ss.fff}] [%t/%level] [%logger]: %m%n";
-
     internal static void Main(LoaderType loaderType) {
         var modDir = Path.Combine("sisyphus", "sisyphus-mods");
         IModLoader loader =  new ModLoader(modDir) {
@@ -28,7 +25,6 @@ internal static class Entrypoint {
         };
 
         AppDomain.CurrentDomain.AssemblyResolve += Resolve;
-        AppDomain.CurrentDomain.UnhandledException += Handle;
         AppDomain.CurrentDomain.AssemblyLoad += Patch;
 
         try {
@@ -43,7 +39,6 @@ internal static class Entrypoint {
         }
         finally {
             AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
-            AppDomain.CurrentDomain.UnhandledException -= Handle;
         }
     }
 
@@ -77,19 +72,8 @@ internal static class Entrypoint {
             HookEndpointManager.Add(setPlatform, () => { });
     }
 
-    private static void Handle(object sender, UnhandledExceptionEventArgs e) {
-        if (e.ExceptionObject is not Exception ex)
-            return;
-
-        var log = LogManager.GetLogger("UnhandledExceptionHandler");
-        log.Fatal("Unhandled exception:", ex);
-    }
-
     private static Assembly? Resolve(object sender, ResolveEventArgs args) {
         var name = new AssemblyName(args.Name);
-        
-        LogManager.GetLogger("AssemblyResolver")
-            .Info($"Resolving assembly: {name.Name}");
 
         try {
             var fileName = name.Name + ".dll";
@@ -103,17 +87,17 @@ internal static class Entrypoint {
 
     private static void InitializeLogging() {
         var layout = new PatternLayout {
-            ConversionPattern = log_pattern
+            ConversionPattern = LOG_PATTERN,
         };
         layout.ActivateOptions();
 
         var appenders = new List<IAppender> {
             new ConsoleAppender {
-                Name = "ConsoleAppender",
+                Name = nameof(ConsoleAppender),
                 Layout = layout,
             },
             new DebugAppender {
-                Name = "DebugAppender",
+                Name = nameof(DebugAppender),
                 Layout = layout,
             },
         };
@@ -129,8 +113,6 @@ internal static class Entrypoint {
         appenders.Add(fileApp);
 
         BasicConfigurator.Configure(appenders.ToArray());
-
-        LogManager.GetLogger("InitializeLogging").Info("Initialized logging!");
     }
 
     private static void PatchAssemblyLoading() {

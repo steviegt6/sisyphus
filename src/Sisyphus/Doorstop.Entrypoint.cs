@@ -1,5 +1,4 @@
-﻿using Sisyphus.Loader;
-using Sisyphus.Loader.Core;
+﻿using Sisyphus.Loader.Core;
 
 // ReSharper disable once CheckNamespace
 namespace Doorstop;
@@ -14,6 +13,15 @@ internal static class Entrypoint {
     /// </summary>
     [UsedImplicitly]
     internal static void Start() {
-        Sisyphus.Entrypoint.Main(LoaderType.UnityDoorstop);
+        Doorstop(LoaderType.UnityDoorstop3);
+    }
+
+    [UsedImplicitly]
+    internal static void Main() {
+        Doorstop(LoaderType.UnityDoorstop4);
+    }
+
+    internal static void Doorstop(LoaderType doorstopVers) {
+            Sisyphus.Entrypoint.Main(LoaderType.UnityDoorstop | doorstopVers);
     }
 }
