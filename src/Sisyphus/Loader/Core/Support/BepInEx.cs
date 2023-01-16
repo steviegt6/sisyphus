@@ -20,7 +20,7 @@ internal static class BepInEx {
 
         MoveBepInExFolder();
 
-        var expectedDir = BEPINEX_PRELOADER_PATH;
+        var expectedDir = SISYPHUS_BEPINEX_CORE_PATH;
 
         if (!Directory.Exists(expectedDir)) {
             logger.Info("Skipping, not found: " + expectedDir);

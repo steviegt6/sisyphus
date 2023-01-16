@@ -13,12 +13,12 @@ internal static class Entrypoint {
     /// </summary>
     [UsedImplicitly]
     internal static void Start() {
-        Doorstop(LoaderType.UnityDoorstop3);
+        Doorstop(LoaderType.UnityDoorstop4);
     }
 
     [UsedImplicitly]
     internal static void Main() {
-        Doorstop(LoaderType.UnityDoorstop4);
+        Doorstop(LoaderType.UnityDoorstop3);
     }
 
     internal static void Doorstop(LoaderType doorstopVers) {

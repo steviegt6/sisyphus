@@ -19,17 +19,18 @@ namespace Sisyphus;
 /// 
 internal static class Entrypoint {
     internal static void Main(LoaderType loaderType) {
-        IModLoader loader = new ModLoader(SISYPHUS_MODS_DIRECTORY) {
-            LoaderEnvironment = loaderType,
-        };
-
-        AppDomain.CurrentDomain.AssemblyResolve += Resolve;
-        AppDomain.CurrentDomain.AssemblyLoad += Patch;
-
         try {
+            EarlyAssemblyLoad();
+            
+            AppDomain.CurrentDomain.AssemblyLoad += Patch;
+
+            IModLoader loader = new ModLoader(SISYPHUS_MODS_PATH) {
+                LoaderEnvironment = loaderType,
+            };
+
             InitializeLogging();
             PatchAssemblyLoading();
-            
+
             var log = LogManager.GetLogger("Entrypoint");
 
             log.Info($"Stating with {nameof(loaderType)}: {loaderType}");
@@ -38,13 +39,48 @@ internal static class Entrypoint {
         }
         catch (Exception e) {
             var log = LogManager.GetLogger("Entrypoint");
-            
+
             log.Fatal("Fatal error occured during loading, cannot recover:", e);
         }
         finally {
-            AppDomain.CurrentDomain.AssemblyResolve -= Resolve;
             AppDomain.CurrentDomain.AssemblyLoad -= Patch;
         }
+    }
+
+    private static void EarlyAssemblyLoad() {
+        // Forcefully loads our assemblies into the current domain early.
+
+        Assembly? resolve(object sender, ResolveEventArgs args) {
+            var name = new AssemblyName(args.Name);
+
+            try {
+                var fileName = name.Name + ".dll";
+                var path = Path.Combine(SISYPHUS_CORE_PATH, fileName);
+                return Assembly.LoadFile(path);
+            }
+            catch {
+                return null;
+            }
+        }
+
+        var assemblies = new[] {
+            "log4net",
+            "MedallionTopologicalSort",
+            "Mono.Cecil",
+            "Mono.Cecil.Mdb",
+            "Mono.Cecil.Pdb",
+            "Mono.Cecil.Rocks",
+            "MonoMod.RuntimeDetour",
+            "MonoMod.Utils",
+            "Semver",
+        };
+
+        AppDomain.CurrentDomain.AssemblyResolve += resolve;
+
+        foreach (var assembly in assemblies)
+            Assembly.Load(assembly);
+
+        AppDomain.CurrentDomain.AssemblyResolve -= resolve;
     }
 
     private static void Patch(object sender, AssemblyLoadEventArgs args) {
@@ -75,19 +111,6 @@ internal static class Entrypoint {
 
         if (setPlatform is not null)
             HookEndpointManager.Add(setPlatform, () => { });
-    }
-
-    private static Assembly? Resolve(object sender, ResolveEventArgs args) {
-        var name = new AssemblyName(args.Name);
-
-        try {
-            var fileName = name.Name + ".dll";
-            var path = Path.Combine(SISYPHUS_CORE_DIRECTORY, fileName);
-            return Assembly.LoadFile(path);
-        }
-        catch {
-            return null;
-        }
     }
 
     private static void InitializeLogging() {
